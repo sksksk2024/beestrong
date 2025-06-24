@@ -24,6 +24,8 @@ model Client {
   haine  Haina[]
   mancare Mancare[]
   cart  Cart[]
+  role     Role     @default(USER)
+  messages Message[]
   createdAt DateTime @default(now())
 }
 
@@ -58,4 +60,19 @@ model Cart {
   mancare Mancare[]
   createdAt DateTime  @default(now())
   status  String  @default("in desfasurare")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  userEmail String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
 }
