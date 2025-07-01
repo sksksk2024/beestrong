@@ -1,7 +1,12 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+
+#bg,
+body {
+  overflow-x: clip;
+}
 
 @theme inline {
   --color-background: var(--background);

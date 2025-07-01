@@ -6,27 +6,50 @@ import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { buttonVariants } from '@/components/motionVariants/motionVariants';
+import ProductCarousel from '@/components/global/ProductCarousel';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAlimenteModal, setIsAlimenteModal] = useState(false);
+  const [isVestimentareModal, setIsVestimentareModal] = useState(false);
+
+  const handleVestimentareModal = () => {
+    setIsVestimentareModal(!isVestimentareModal);
+  };
+
+  const handleAlimenteModal = () => {
+    setIsAlimenteModal(!isAlimenteModal);
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <div className="relative">
+    <div className="relative z-20">
       {/* Overlay that darkens the content when menu is open */}
       <div
-        className={`fixed inset-0 bg-black z-40 transition-opacity duration-300 ${
+        className={`z-20 fixed inset-0 bg-black z-40 transition-opacity duration-300 ${
           isMenuOpen ? 'opacity-75' : 'opacity-0 pointer-events-none'
         }`}
         onClick={toggleMenu}
       />
+      {(isAlimenteModal || isVestimentareModal) && (
+        <div
+          className={`z-20 fixed inset-0 bg-black z-40 transition-all w-[100dvw] duration-300 ${
+            isAlimenteModal || isVestimentareModal
+              ? 'opacity-75'
+              : 'opacity-0 pointer-events-none'
+          }`}
+          onClick={
+            isAlimenteModal ? handleAlimenteModal : handleVestimentareModal
+          }
+        />
+      )}
 
       {/* Sliding Menu */}
       <div
-        className={`fixed top-0 left-0 h-full w-full sm:w-1/4 bg-white z-50 transform transition-transform duration-300 ${
+        className={`z-20 fixed top-0 left-0 h-full w-full sm:w-1/4 bg-white z-50 transform transition-transform duration-300 ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -53,30 +76,45 @@ export default function Home() {
         }`}
       >
         {/* BG - VIDEO */}
-        <div className="flex flex-col justify-between items-center h-[100dvh]">
+        <div className="z-20 flex flex-col justify-between items-center h-[100dvh]">
           <Header toggleMenu={toggleMenu} />
           <h2>FORTA DIVINA DIRECT DE LA ALBINA</h2>
         </div>
 
-        <div className="flex justify-between items-center px-[1rem]">
-          <Card className="relative w-[30%] h-[30rem]">
+        <div className="flex justify-around items-center px-[1rem]">
+          {(isVestimentareModal || isAlimenteModal) && (
+            <ProductCarousel
+              isAlimenteModal={isAlimenteModal}
+              isVestimentareModal={isVestimentareModal}
+              handleAlimenteModal={handleAlimenteModal}
+              handleVestimentareModal={handleVestimentareModal}
+            />
+          )}
+          <Card
+            onClick={handleAlimenteModal}
+            className="z-20 relative w-[30%] h-[30rem]"
+          >
             <Image className="w-[100%]" src={img1} alt="img" />
             <h3 className="absolute left-[1rem] bottom-[2rem] bg-black text-yellow-500 px-[0.5rem]">
               Art Alimentare
             </h3>
           </Card>
-          <Card className="relative w-[30%] h-[30rem]">
+
+          <Card
+            onClick={handleVestimentareModal}
+            className="z-20 relative w-[30%] h-[30rem]"
+          >
             <Image className="w-[100%]" src={img1} alt="img" />
             <h3 className="absolute left-[1rem] bottom-[2rem] bg-black text-yellow-500 px-[0.5rem]">
               Art Vestimentare
             </h3>
           </Card>
         </div>
-        <Card className="relative w-[100%] h-[30rem] m-auto flex justify-center items-center text-5xl font-bold">
+        <Card className="z-20 relative w-[100%] h-[30rem] m-auto flex justify-center items-center text-5xl font-bold">
           COMMUNITY
         </Card>
 
-        <Card className="my-[1rem] w-[100%] h-[30rem] m-auto flex flex-row justify-between items-center font-bold px-[1rem] rounded-none">
+        <Card className="z-20 my-[1rem] w-[100%] h-[30rem] m-auto flex flex-row justify-around items-center font-bold px-[1rem] rounded-none">
           <div className="max-w-[14rem] text-center">
             <h4>Livrare</h4>
             <p>
@@ -85,7 +123,7 @@ export default function Home() {
               laudantium sunt eum cumque illum!
             </p>
           </div>
-          <div className="max-w-[14rem] text-center">
+          <div className="z-20 max-w-[14rem] text-center">
             <h4>Livrare</h4>
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -93,7 +131,7 @@ export default function Home() {
               laudantium sunt eum cumque illum!
             </p>
           </div>
-          <div className="max-w-[14rem] text-center">
+          <div className="z-20 max-w-[14rem] text-center">
             <h4>Livrare</h4>
             <p>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -103,7 +141,7 @@ export default function Home() {
           </div>
         </Card>
 
-        <footer className="">
+        <footer className="z-20">
           <div className="flex items-center">
             <Image className="w-[10%]" src={img1} alt="img" />
             <span className="font-bold text-3xl">STRONG</span>
