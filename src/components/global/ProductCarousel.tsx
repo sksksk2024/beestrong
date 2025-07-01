@@ -8,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import Link from 'next/link';
 
 type carouselProps = {
   isAlimenteModal: boolean;
@@ -70,6 +71,9 @@ const ProductCarousel = forwardRef<HTMLDivElement, carouselProps>(
                       <span className="text-3xl font-semibold">
                         {index + 1}
                       </span>
+                      <button className="bg-green-400 p-6">
+                        <Link href="/comanda">Apasa-ma</Link>
+                      </button>
                     </CardContent>
                   </Card>
                 </div>
