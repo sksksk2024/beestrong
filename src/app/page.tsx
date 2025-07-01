@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from '@/components/global/Header';
 import img1 from '@/app/favicon.ico';
 import { Card } from '@/components/ui/card';
@@ -12,6 +12,30 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAlimenteModal, setIsAlimenteModal] = useState(false);
   const [isVestimentareModal, setIsVestimentareModal] = useState(false);
+
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (isAlimenteModal || isVestimentareModal) {
+      setTimeout(() => {
+        carouselRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }, 100);
+    }
+  }, [isAlimenteModal, isVestimentareModal]);
+
+  useEffect(() => {
+    if (isMenuOpen || isAlimenteModal || isVestimentareModal) {
+      document.body.classList.add('bodyClass');
+    } else {
+      document.body.classList.remove('bodyClass');
+    }
+
+    // Clean up on unmount
+    return () => document.body.classList.remove('bodyClass');
+  }, [isMenuOpen, isAlimenteModal, isVestimentareModal]);
 
   const handleVestimentareModal = () => {
     setIsVestimentareModal(!isVestimentareModal);
@@ -36,7 +60,7 @@ export default function Home() {
       />
       {(isAlimenteModal || isVestimentareModal) && (
         <div
-          className={`z-20 fixed inset-0 bg-black z-40 transition-all w-[100dvw] duration-300 ${
+          className={`z-20 fixed inset-0 bg-black z-40 w-[100dvw] ${
             isAlimenteModal || isVestimentareModal
               ? 'opacity-75'
               : 'opacity-0 pointer-events-none'
@@ -84,6 +108,7 @@ export default function Home() {
         <div className="flex justify-around items-center px-[1rem]">
           {(isVestimentareModal || isAlimenteModal) && (
             <ProductCarousel
+              ref={carouselRef}
               isAlimenteModal={isAlimenteModal}
               isVestimentareModal={isVestimentareModal}
               handleAlimenteModal={handleAlimenteModal}

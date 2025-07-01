@@ -3,9 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
-#bg,
-body {
+#bg {
   overflow-x: clip;
+}
+
+body.bodyClass {
+  overflow-y: hidden !important;
 }
 
 @theme inline {
